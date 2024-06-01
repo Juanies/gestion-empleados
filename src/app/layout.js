@@ -1,4 +1,4 @@
-import { poppins } from "@/app/ui/fonts";
+import { poppins } from "@/app/components/ui/fonts";
 import "./globals.css";
 
 

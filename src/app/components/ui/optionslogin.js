@@ -1,5 +1,5 @@
-import GoogleIcon from '@/app/ui/assets/google';
-import AppleIcon from '@/app/ui/assets/apple';
+import GoogleIcon from '@/app/components/ui/assets/google';
+import AppleIcon from '@/app/components/ui/assets/apple';
 
 export default function Button({ type }) {
     return (
