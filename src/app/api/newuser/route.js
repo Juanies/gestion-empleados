@@ -1,7 +1,7 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
 
-export async function POST(req, { params }) {
+export async function POST(req) {
   try {
     const { username, password, mail } = await req.json();
     await sql`INSERT INTO usuario (usuario, contraseña, correo) VALUES (${username}, ${password}, ${mail})`;

@@ -1,38 +1,62 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Option from '@/app/components/ui/optionslogin';
 import Input from '@/app/components/ui/input';
 import Button from '@/app/components/ui/button';
 
 export default function Home() {
 
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const [data, setData] = useState(null);
+  const validate = () => {
+    const errors = {};
+
+    if (!username) errors.username = "Username is required";
+    if (!mail) errors.mail = "Email is required";
+    if (!password) errors.password = "Password is required";
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (mail && !emailPattern.test(mail)) {
+      errors.mail = "Invalid email format";
+    }
+
+    if (password && password.length < 6) {
+      errors.password = "Password must be at least 6 characters long";
+    }
+
+    return errors;
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const payload = {name, password, mail}
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    const payload = { username, password, mail };
 
     fetch(`api/newuser`, {
-      method:"POST",
+      method: "POST",
       body: JSON.stringify(payload),
     })
-    .then((res) => res.json())
-    .then((responseData) => {
-      setName("");
-      setPassword("");
-      setMail("")
-      setData(responseData)
-    })
-    .catch((err) =>{
-      console.log(err)
-    })
-
+      .then((res) => res.json())
+      .then((responseData) => {
+        setUsername("");
+        setPassword("");
+        setMail("");
+        setData(responseData);
+        setErrors({});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -49,9 +73,30 @@ export default function Home() {
           </div>
           <p>O continúa con tu correo electrónico</p>
           <div className='flex flex-col gap-2'>
-            <Input type="text" name="username" onChange={(e) => setName(e.target.value)} />
-            <Input type="email" name="email" onChange={(e) => setMail(e.target.value)} />
-            <Input type="password" name="password" onChange={(e) => setPassword(e.target.value)} />
+            <Input
+              type="text"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+              placeholder="Username"
+            />
+            {errors.username && <p className="text-red-500">{errors.username}</p>}
+            <Input
+              type="email"
+              name="email"
+              onChange={(e) => setMail(e.target.value)}
+              value={mail}
+              placeholder="Email"
+            />
+            {errors.mail && <p className="text-red-500">{errors.mail}</p>}
+            <Input
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              placeholder="Password"
+            />
+            {errors.password && <p className="text-red-500">{errors.password}</p>}
           </div>
         </div>
         <Button click={handleSubmit} type={1} text="SUBMIT" />
