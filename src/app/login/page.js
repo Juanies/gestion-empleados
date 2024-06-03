@@ -1,28 +1,32 @@
 'use client'
-
 import React, { useState } from 'react';
+import { login } from '../actions/cookie';
 
 export default function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch('/api/searchuser', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ username, password }),
       });
-      const data = await response.json();
-      if (response.ok) {
-        setMessage(`Login successful! Welcome, ${data.username}`);
-      } else {
-        setMessage(`Login failed: ${data.error}`);
-      }
+
+
+      const userData = await response.json();
+      console.log('Logged in as:', userData.username);
+
+
     } catch (error) {
-      setMessage('An error occurred. Please try again.');
+      console.error('Error during login:', error.message);
+      setError(error.message);
     }
   };
 
@@ -44,8 +48,8 @@ export default function Home() {
           required
         />
         <button type="submit">Login</button>
+        {error && <p>{error}</p>}
       </form>
-      {message && <p>{message}</p>}
     </main>
   );
 }
