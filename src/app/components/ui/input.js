@@ -14,7 +14,7 @@ export default function Input({ type, name, value, onChange, placeholder }) {
         <input
         type={type}
         name={name}
-        placeholder={placeholder} // Aquí usaremos el placeholder que se pasa directamente al componente
+        placeholder={placeholder}
         value={value}
         onChange={onChange}
         className="w-48 h-10 px-2 text-base text-red-500 placeholder-center border-2"

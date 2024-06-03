@@ -11,7 +11,7 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/searchuser', {
+      const response = await fetch('/api/newuser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
