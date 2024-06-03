@@ -1,0 +1,8 @@
+export default function Ic({color}) {
+    return(
+        <svg width="33" height="33" viewBox="0 0 33 33"  xmlns="http://www.w3.org/2000/svg">
+        <path d="M25.8333 17.8307H17.8333V25.8307H15.1667V17.8307H7.16666V15.164H15.1667V7.164H17.8333V15.164H25.8333V17.8307Z" fill={color}/>
+        </svg>
+
+    )
+}
