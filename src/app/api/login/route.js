@@ -8,7 +8,7 @@ export async function POST(request) {
   try {
     if (!username || !password) throw new Error('Username and password required');
 
-    const result = await sql`SELECT * FROM usuario WHERE usuario = ${username} AND contraseña = ${password};`;
+    const result = await sql`SELECT * FROM usuario WHERE username = ${username} AND contraseña = ${password};`;
 
     if (result.rowCount >= 1) {
       await login(username);

@@ -2,6 +2,7 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextResponse, NextRequest } from 'next/server';
+import { sql } from '@vercel/postgres';
 
 const secretKey = 'comun';
 const key = new TextEncoder().encode(secretKey);
@@ -32,27 +33,22 @@ export async function getSession(){
   return await decrypt(session);
 }
 
-export async function getUser(nameCookie){
-  const cookie = cookies().get('session');
-  if (cookie) {
-    const decryptedPayload = await decrypt(cookie.value);
-    console.log(decryptedPayload);
-    return decryptedPayload;
-  } else {
-    throw new Error("No session cookie found");
-  }
-}
-
-export async function getid(req) {
-    try {
-        const username = await req.json();
-        const userid = await sql`SELECT id FROM usuario WHERE usuario = ${username}`; // Corregir el SQL
-
-        return userid;
-    } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+export async function getUser() {
+    const cookie = cookies().get("session"); 
+    if (cookie) {
+        try {
+            const decryptedPayload = await decrypt(cookie.value);
+            const username = decryptedPayload.user; 
+            return username; 
+        } catch (error) {
+            console.error("Error while decrypting session:", error);
+            throw new Error("Invalid session cookie");
+        }
+    } else {
+        throw new Error("No session cookie found");
     }
 }
+
 
 export async function updateSession(request){
   const session = request.cookies.get('session')?.value;
