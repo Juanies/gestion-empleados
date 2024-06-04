@@ -43,6 +43,17 @@ export async function getUser(nameCookie){
   }
 }
 
+export async function getid(req) {
+    try {
+        const username = await req.json();
+        const userid = await sql`SELECT id FROM usuario WHERE usuario = ${username}`; // Corregir el SQL
+
+        return userid;
+    } catch (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+}
+
 export async function updateSession(request){
   const session = request.cookies.get('session')?.value;
   if(!session) return;

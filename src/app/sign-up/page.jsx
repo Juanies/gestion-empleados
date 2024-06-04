@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState } from 'react';
-import Option from '@/app/components/ui/optionslogin';
-import Input from '@/app/components/ui/input';
 import Button from '@/app/components/ui/button';
+import Input from '@/app/components/ui/input';
+import Option from '@/app/components/ui/optionslogin';
+import { useState } from 'react';
 
 export default function Home() {
 
@@ -34,11 +34,7 @@ export default function Home() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+
 
     const payload = { username, password, mail };
 
