@@ -11,7 +11,6 @@ export async function POST(request) {
         if (!name) throw new Error("Name required");
 
         const userId = await getid(username);
-        console.log(userId + "uwwww");
 
         await sql`INSERT INTO empresa (idusuario, nombre) VALUES (${userId}, ${name})`;
 
