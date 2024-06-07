@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import NewCompanyCard from '@/app/components/ui/NewCompanyCard';
 import NewCompanyForm from '../components/ui/NewCompanyForm';
+import SeeCompany from '@/app/components/ui/SeeCompany'
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -33,12 +35,14 @@ export default function Home() {
   }, []); 
 
   return (
-    <main>
+    <main className='flex flex-wrap gap-4'>
+      
       <NewCompanyCard onclick={handleToggleForm} />
       {isFormOpen && <NewCompanyForm />}
-      {business.map((company, index) => (
-        <p key={index}>{company.nombre}</p>
-      ))}
+      {business.map((company) => (
+        <SeeCompany key={uuidv4()} text={company.nombre} />
+
+))}
     </main>
   );
 }
